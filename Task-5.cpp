@@ -80,9 +80,17 @@ std::vector<float> matToVector(const cv::Mat& mat) {
 }
 
 int main(int argc, char* argv[]) {
+    if (argc != 5) {
+        cerr << "Usage: " << argv[0] << " QUERY_A QUERY_B IMAGE_DIR COUNT" << endl;
+        return 1;
+    }
 
     // Load the target image
     Mat target1 = imread(argv[1]);
+    if (target1.empty()) {
+        cerr << "Could not read query image: " << argv[1] << endl;
+        return 1;
+    }
     Mat gardx1, gardy1, gardMag1;
     Mat abs_grad_x1, abs_grad_y1;
     Sobel(target1, gardx1, CV_32F, 1, 0);
@@ -100,6 +108,10 @@ int main(int argc, char* argv[]) {
     //vector<float> flo_tcrp1 = matToVector(his_tarcrp1);
 
     Mat target2 = imread(argv[2]);
+    if (target2.empty()) {
+        cerr << "Could not read query image: " << argv[2] << endl;
+        return 1;
+    }
     Mat gardx2, gardy2, gardMag2;
     Mat abs_grad_x2, abs_grad_y2; 
     Sobel(target2, gardx2, CV_32F, 1, 0);
